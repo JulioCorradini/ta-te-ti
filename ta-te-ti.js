@@ -57,6 +57,7 @@ function minimax (tablero, jugador) {
   return valor;
 };
 
+// Función para marcar las fichas de la IA
 function jugarAI(tablero, jugador) {
 
   for (i = 0; i < tablero.length; i++) {
@@ -65,7 +66,7 @@ function jugarAI(tablero, jugador) {
       valor = minimax(tablero, jugador);
 
       if (valor > 0 ) {
-        
+
       };
 
     };
