@@ -1,8 +1,11 @@
-var tablero = ["","","","","","","",""];
-
+// Variables
+var tablero = ["O","-","-","-","-","-","-","-","-"];
 var jugadorAI = "X";
 var jugadorHumano = "O";
+var turnoJugadorAI = true;
+//var valoresDeRegreso = [];
 
+// Función para determinar los patrones de jugadas ganadoras.
 function jugadaGanadora (tablero, jugador) {
   
   if (tablero[0] === jugador && tablero[1] === jugador && tablero[2] === jugador ||
@@ -17,59 +20,87 @@ function jugadaGanadora (tablero, jugador) {
   }
 };
 
-function minimax (tablero, jugador) {
+// Función miniMax.
+function minimax (tablero, jugador,) {
 
-  var valor = 0;
+  var talbleroAuxiliar = tablero.slice();
+  
+  var resultadoMiniMax = {
+                          valor: 0,
+                          indice: ""
+                          };
 
-  var turnoJugadorAI = true;
-
-  if (jugadaGanadora(tablero, jugadorIA)) {
-    valor = 1;
-  } else if (jugadaGanadora(tablero, jugadorHumano)) {
-    valor = -1;
-  } else if (!tablero.includes("")) {
-    valor = 0;
+  if (jugadaGanadora(talbleroAuxiliar, jugadorAI)) {
+    resultadoMiniMax.valor = 1;
+  } else if (jugadaGanadora(talbleroAuxiliar, jugadorHumano)) {
+    resultadoMiniMax.valor = -1;
+  } else if (!talbleroAuxiliar.includes("")) {
+    resultadoMiniMax.valor = 0;
   };
 
-  turnoJugadorAI = !turnoJugadorAI;
-
-  for (i=0; i<tablero.length; i++){
+  for (i=0; i<talbleroAuxiliar.length; i++){
     
-    if (tablero[i] === ""){
+    if (talbleroAuxiliar[i] === "-"){
       
-      tablero[i] === jugador;
+      talbleroAuxiliar[i] = jugador;
 
-      if(turnoJugadorIA) {
-        valorDeRegreso = minimax (tablero, jugadorAI);
+      var valorDeRegreso;
+
+      if(turnoJugadorAI) {
+        turnoJugadorAI = !turnoJugadorAI;
+        valorDeRegreso = minimax (talbleroAuxiliar, jugadorAI).valor;
+        //valoresDeRegreso.push = minimax (tablero, jugadorAI).valor;
       } else {
-        valorDeRegreso = minimax (tablero, jugadorHumano);
+        turnoJugadorAI = !turnoJugadorAI;
+        valorDeRegreso = minimax (talbleroAuxiliar, jugadorHumano).valor;
+        //valoresDeRegreso.push = minimax (tablero, jugadorAI).valor;
       }
 
-      if (valorDeRegreso > valor) {
-        valor = valorDeRegreso;
+      if (valorDeRegreso > resultadoMiniMax.valor) {
+        resultadoMiniMax.valor = valorDeRegreso;
+        resultadoMiniMax.indice = i;
       }
 
-      tablero[i] === "";
+      talbleroAuxiliar[i] = "-";
+
     };
 
   };
 
-  return valor;
+  console.log(resultadoMiniMax);
+  return resultadoMiniMax;
+
 };
 
 // Función para marcar las fichas de la IA
-function jugarAI(tablero, jugador) {
+function jugarAI(tablero) {
 
-  for (i = 0; i < tablero.length; i++) {
-    if (tablero[i] === "") {
-
-      valor = minimax(tablero, jugador);
-
-      if (valor > 0 ) {
-
-      };
-
-    };
-  };
+  var jugadaDeAI = minimax(tablero, jugadorAI).indice;
+  console.log(jugadaDeAI);
+  tablero[jugadaDeAI] = jugadorAI;
 
 };
+
+// Imprime el tablero por consola.
+for (let i = 0; i < 3; i++) {
+  let row = "";
+  for (let j = 0; j < 3; j++) {
+    const index = i * 3 + j;
+    row += tablero[index] + " ";
+  }
+  console.log(row);
+};
+
+jugarAI(tablero);
+
+// Imprime el tablero por consola.
+for (let i = 0; i < 3; i++) {
+  let row = "";
+  for (let j = 0; j < 3; j++) {
+    const index = i * 3 + j;
+    row += tablero[index] + " ";
+  }
+  console.log(row);
+};
+
+//console.log(valoresDeRegreso);
