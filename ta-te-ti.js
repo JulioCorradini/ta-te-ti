@@ -1,5 +1,5 @@
 // Variables
-var tablero = ["O","-","-","-","-","-","-","-","-"];
+var tablero = ["-","-","-","-","-","-","-","-","-"];
 var jugadorAI = "X";
 var jugadorHumano = "O";
 var turnoJugadorAI = true;
@@ -34,12 +34,12 @@ function minimax (tablero, jugador,) {
     resultadoMiniMax.valor = 1;
   } else if (jugadaGanadora(talbleroAuxiliar, jugadorHumano)) {
     resultadoMiniMax.valor = -1;
-  } else if (!talbleroAuxiliar.includes("")) {
+  } else if (!talbleroAuxiliar.includes("-")) {
     resultadoMiniMax.valor = 0;
   };
 
-  for (i=0; i<talbleroAuxiliar.length; i++){
-    
+  for (let i = 0; i < talbleroAuxiliar.length; i++){
+     
     if (talbleroAuxiliar[i] === "-"){
       
       talbleroAuxiliar[i] = jugador;
@@ -91,7 +91,27 @@ for (let i = 0; i < 3; i++) {
   console.log(row);
 };
 
-jugarAI(tablero);
+// Turno del jugador humano
+if (!turnoJugadorAI && !tablero.includes("-")) {
+
+  !turnoJugadorAI;
+
+  var jugadaDeHumano = parseInt (prompt("Elija el casillero (del 1 al 9) que desea marcar."));
+
+  if (tablero[jugadaDeHumano] === "-") {
+    tablero[jugadaDeHumano] = "O";
+  };
+
+};
+
+// Turno del jugador IA
+if (turnoJugadorAI && !tablero.includes("-")) {
+  
+  !turnoJugadorAI;
+
+  jugarAI(tablero);
+
+};
 
 // Imprime el tablero por consola.
 for (let i = 0; i < 3; i++) {
