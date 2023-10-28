@@ -152,7 +152,7 @@ function turnoIA() {
     
 };
 
-if(turnoJugadorAI) {
+if(turnoJugadorAI) { // HAY QUE LOGRAR QUE LUEGO DEL TURNO DEL HUMANO VUELVA A LLAMARSE AL TURNO DE LA IA
 
     turnoIA();
     turnoHumano();
