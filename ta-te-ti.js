@@ -1,9 +1,14 @@
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 // Variables
 var tablero = ["-","-","-","-","-","-","-","-","-"];
 var jugadorAI = "X";
 var jugadorHumano = "O";
 var turnoJugadorAI = true;
-//var valoresDeRegreso = [];
 
 // Función para determinar los patrones de jugadas ganadoras.
 function jugadaGanadora (tablero, jugador) {
@@ -49,11 +54,9 @@ function minimax (tablero, jugador,) {
       if(turnoJugadorAI) {
         turnoJugadorAI = !turnoJugadorAI;
         valorDeRegreso = minimax (talbleroAuxiliar, jugadorAI).valor;
-        //valoresDeRegreso.push = minimax (tablero, jugadorAI).valor;
       } else {
         turnoJugadorAI = !turnoJugadorAI;
         valorDeRegreso = minimax (talbleroAuxiliar, jugadorHumano).valor;
-        //valoresDeRegreso.push = minimax (tablero, jugadorAI).valor;
       }
 
       if (valorDeRegreso > resultadoMiniMax.valor) {
@@ -81,46 +84,77 @@ function jugarAI(tablero) {
 
 };
 
-// Imprime el tablero por consola.
-for (let i = 0; i < 3; i++) {
-  let row = "";
-  for (let j = 0; j < 3; j++) {
-    const index = i * 3 + j;
-    row += tablero[index] + " ";
-  }
-  console.log(row);
-};
 
 // Turno del jugador humano
-if (!turnoJugadorAI && !tablero.includes("-")) {
+function turnoHumano() {
+  
 
-  !turnoJugadorAI;
+    // Imprime el tablero por consola.
+    for (let i = 0; i < 3; i++) {
+      let row = "";
+      for (let j = 0; j < 3; j++) {
+        const index = i * 3 + j;
+        row += tablero[index] + " ";
+      }
+      console.log(row);
+    };
+  
+    rl.question("Elija el casillero (del 1 al 9) que desea marcar: ", (input) => {
 
-  var jugadaDeHumano = parseInt (prompt("Elija el casillero (del 1 al 9) que desea marcar."));
+      const jugadaDeHumano = parseInt(input);
+      if (tablero[jugadaDeHumano - 1] === "-") {
+        tablero[jugadaDeHumano - 1] = "O";
+      }
 
-  if (tablero[jugadaDeHumano] === "-") {
-    tablero[jugadaDeHumano] = "O";
-  };
+      rl.close();
+  
+      // Imprime el tablero por consola.
+      for (let i = 0; i < 3; i++) {
+        let row = "";
+        for (let j = 0; j < 3; j++) {
+          const index = i * 3 + j;
+          row += tablero[index] + " ";
+        }
+        console.log(row);
+      };
 
+    });
+  
+  
 };
 
 // Turno del jugador IA
-if (turnoJugadorAI && !tablero.includes("-")) {
+function turnoIA() {
   
-  !turnoJugadorAI;
 
-  jugarAI(tablero);
-
+    // Imprime el tablero por consola.
+    for (let i = 0; i < 3; i++) {
+      let row = "";
+      for (let j = 0; j < 3; j++) {
+        const index = i * 3 + j;
+        row += tablero[index] + " ";
+      }
+      console.log(row);
+    };
+  
+    jugarAI(tablero);
+  
+    // Imprime el tablero por consola.
+    for (let i = 0; i < 3; i++) {
+      let row = "";
+      for (let j = 0; j < 3; j++) {
+        const index = i * 3 + j;
+        row += tablero[index] + " ";
+      }
+      console.log(row);
+    };
+  
+    
 };
 
-// Imprime el tablero por consola.
-for (let i = 0; i < 3; i++) {
-  let row = "";
-  for (let j = 0; j < 3; j++) {
-    const index = i * 3 + j;
-    row += tablero[index] + " ";
-  }
-  console.log(row);
-};
+if(turnoJugadorAI) {
 
-//console.log(valoresDeRegreso);
+    turnoIA();
+    turnoHumano();
+
+};
