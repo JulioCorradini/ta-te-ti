@@ -1,15 +1,32 @@
-const { resolve } = require('path');
-const readline = require('readline');
-const rl = readline.createInterface({
+//const { resolve } = require('path');
+//const readline = require('readline');
+/*const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
-});
+});*/
+const cells = document.querySelectorAll(".cell");
+
+/*cells.forEach((cell)=>{
+  cell.addEventListener("click", ()=>{
+    if (!cell.textContent) {
+      cell.textContent = "O";
+      cell.classList.add("occupied");
+    };
+  });
+});*/
 
 // Variables
 var tablero = ["-","-","-","-","-","-","-","-","-"];
 var jugadorAI = "X";
 var jugadorHumano = "O";
 var turnoJugadorAI = true;
+
+// Actualiza las celdas según el contenido del array 'tablero'
+function actualizarTablero() {
+  cells.forEach((cell, index) => {
+      cell.textContent = tablero[index]; // Asigna el valor del array a la celda
+  });
+};
 
 // Función para determinar los patrones de jugadas ganadoras.
 function jugadaGanadora (tablero, jugador) {
@@ -70,57 +87,7 @@ function minimax(tablero, jugador) {
   }
 
   return mejorResultado;
-}
-
-// Función miniMax.
-/*function minimax (tablero, jugador) {
-
-  var talbleroAuxiliar = tablero.slice();
-  
-  var resultadoMiniMax = {
-                          valor: 0,
-                          indice: ""
-                          };
-
-  if (jugadaGanadora(talbleroAuxiliar, jugadorAI)) {
-    resultadoMiniMax.valor = 1;
-  } else if (jugadaGanadora(talbleroAuxiliar, jugadorHumano)) {
-    resultadoMiniMax.valor = -1;
-  } else if (!talbleroAuxiliar.includes("-")) {
-    resultadoMiniMax.valor = 0;
-  };
-
-  for (let i = 0; i < talbleroAuxiliar.length; i++){
-     
-    if (talbleroAuxiliar[i] === "-"){
-      
-      talbleroAuxiliar[i] = jugador;
-
-      var valorDeRegreso;
-
-      if(turnoJugadorAI) {
-        turnoJugadorAI = !turnoJugadorAI;
-         valorDeRegreso = minimax (talbleroAuxiliar, jugadorAI).valor;
-      } else {
-        turnoJugadorAI = !turnoJugadorAI;
-         valorDeRegreso = minimax (talbleroAuxiliar, jugadorHumano).valor;
-      }
-
-      if (valorDeRegreso > resultadoMiniMax.valor) {
-        resultadoMiniMax.valor = valorDeRegreso;
-        resultadoMiniMax.indice = i;
-      }
-
-      talbleroAuxiliar[i] = "-";
-
-    };
-
-  };
-
-  console.log(resultadoMiniMax);
-  return resultadoMiniMax;
-
-};*/
+};
 
 // Función para marcar las fichas de la IA
 function jugarAI(tablero) {
@@ -128,12 +95,13 @@ function jugarAI(tablero) {
   var jugadaDeAI = minimax(tablero, jugadorAI).indice;
   console.log(jugadaDeAI);
   tablero[jugadaDeAI] = jugadorAI;
+  actualizarTablero();
 
 };
 
 
 // Turno del jugador humano
-async function turnoHumano() {
+/*async function turnoHumano() {
 
   return new Promise((resolve)=>{
 
@@ -160,7 +128,7 @@ async function turnoHumano() {
 
   });
   
-};
+};*/
 
 // Turno del jugador IA
 function turnoIA() {
@@ -190,6 +158,8 @@ function juegoTerminado(tablero) {
 
 async function jugarTaTeTi () {
 
+  //await elejirTurno();
+
   while (!juegoTerminado(tablero)) {
 
     if (turnoJugadorAI) {
@@ -211,5 +181,40 @@ async function jugarTaTeTi () {
   rl.close();
 
 };
+
+// Función para elejir el turno.
+/*async function elejirTurno (){
+
+  return new Promise((resolve)=>{
+
+    // Imprime el tablero por consola.
+    for (let i = 0; i < 3; i++) {
+      let row = "";
+      for (let j = 0; j < 3; j++) {
+        const index = i * 3 + j;
+        row += tablero[index] + " ";
+      }
+      console.log(row);
+    };
+
+    rl.question("¿Quiere empezar primero? Presione S para Sí o N para No ", (input) => {
+
+      const respuesta = input.toLocaleLowerCase();
+
+      if(respuesta === "s") {
+        turnoJugadorAI = false;
+      } else {
+        if (respuesta === "n") {
+          turnoJugadorAI = true;
+        };
+      }
+
+      resolve();
+
+    });
+
+  });
+
+};*/
 
 jugarTaTeTi();
