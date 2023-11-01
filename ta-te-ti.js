@@ -21,10 +21,26 @@ var jugadorAI = "X";
 var jugadorHumano = "O";
 var turnoJugadorAI = true;
 
-// Actualiza las celdas según el contenido del array 'tablero'
-function actualizarTablero() {
+// Actualiza las celdas según el contenido del array 'tablero' luego de la jugada de la IA
+function actualizarTableroConJugadaDeIA() {
   cells.forEach((cell, index) => {
       cell.textContent = tablero[index]; // Asigna el valor del array a la celda
+      actualizarTableroConJugadaDeHumano();
+  });
+};
+
+// Atualiza las celdas según el contenido del array 'tablero' luego de la jugada del Humano
+function actualizarTableroConJugadaDeHumano() {
+  console.log ("Actualizar Tablero con Jugada de Humano");
+  cells.forEach((cell, index) => {
+    cell.addEventListener("click", () => {
+      if (!(cell.textContent = jugadorHumano) && !(cell.textContent = jugadorAI)) {
+        cell.textContent = jugadorHumano;
+        cell.classList.add("occupied");
+        tablero[index] = jugadorHumano;
+        jugarAI(tablero);
+      };
+    });
   });
 };
 
@@ -95,107 +111,23 @@ function jugarAI(tablero) {
   var jugadaDeAI = minimax(tablero, jugadorAI).indice;
   console.log(jugadaDeAI);
   tablero[jugadaDeAI] = jugadorAI;
-  actualizarTablero();
+  actualizarTableroConJugadaDeIA();
 
 };
 
-
-// Turno del jugador humano
-/*async function turnoHumano() {
-
-  return new Promise((resolve)=>{
-
-    rl.question("Elija el casillero (del 1 al 9) que desea marcar: ", (input) => {
-
-      const jugadaDeHumano = parseInt(input);
-      if (tablero[jugadaDeHumano - 1] === "-") {
-        tablero[jugadaDeHumano - 1] = "O";
-      }
-  
-      // Imprime el tablero por consola.
-      for (let i = 0; i < 3; i++) {
-        let row = "";
-        for (let j = 0; j < 3; j++) {
-          const index = i * 3 + j;
-          row += tablero[index] + " ";
-        }
-        console.log(row);
-      };
-
-      resolve();
-
-    });
-
-  });
-  
-};*/
-
-// Turno del jugador IA
-function turnoIA() {
-  
-  return new Promise ((resolve)=> {
-
-    jugarAI(tablero);
-  
-    // Imprime el tablero por consola.
-    for (let i = 0; i < 3; i++) {
-      let row = "";
-      for (let j = 0; j < 3; j++) {
-        const index = i * 3 + j;
-        row += tablero[index] + " ";
-      }
-      console.log(row);
-    };
-
-    resolve();
-
-  });
-};
 
 function juegoTerminado(tablero) {
   return jugadaGanadora(tablero, jugadorAI) || jugadaGanadora(tablero, jugadorHumano) || !tablero.includes("-");
 };
 
-async function jugarTaTeTi () {
-
-  //await elejirTurno();
-
-  while (!juegoTerminado(tablero)) {
-
-    if (turnoJugadorAI) {
-      console.log("turno de la IA");
-      await turnoIA();
-      turnoJugadorAI = false;
-
-    } else {
-      console.log("turno del Humano");
-      await turnoHumano();
-      turnoJugadorAI = true;
-
-    }
-
-  };
-
-  console.log("Juego terminado.");
-
-  rl.close();
-
+if (turnoJugadorAI) {
+  jugarAI(tablero);
 };
 
 // Función para elejir el turno.
 /*async function elejirTurno (){
 
   return new Promise((resolve)=>{
-
-    // Imprime el tablero por consola.
-    for (let i = 0; i < 3; i++) {
-      let row = "";
-      for (let j = 0; j < 3; j++) {
-        const index = i * 3 + j;
-        row += tablero[index] + " ";
-      }
-      console.log(row);
-    };
 
     rl.question("¿Quiere empezar primero? Presione S para Sí o N para No ", (input) => {
 
@@ -216,5 +148,3 @@ async function jugarTaTeTi () {
   });
 
 };*/
-
-jugarTaTeTi();
