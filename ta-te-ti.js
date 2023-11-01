@@ -1,19 +1,13 @@
-//const { resolve } = require('path');
-//const readline = require('readline');
-/*const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});*/
 const cells = document.querySelectorAll(".cell");
+const buttonIniciar = document.getElementById("button-iniciar");
+const buttonJugarPrimero = document.getElementById("button-jugar-primero");
+const buttonJugarSegundo = document.getElementById("button-jugar-segundo");
+const buttonReiniciar = document.getElementById("button-reiniciar");
 
-/*cells.forEach((cell)=>{
-  cell.addEventListener("click", ()=>{
-    if (!cell.textContent) {
-      cell.textContent = "O";
-      cell.classList.add("occupied");
-    };
-  });
-});*/
+// Esconder los botones.
+buttonJugarPrimero.style.display = "none";
+buttonJugarSegundo.style.display = "none";
+buttonReiniciar.style.display = "none";
 
 // Variables
 var tablero = ["-","-","-","-","-","-","-","-","-"];
@@ -31,17 +25,19 @@ function actualizarTableroConJugadaDeIA() {
 
 // Atualiza las celdas según el contenido del array 'tablero' luego de la jugada del Humano
 function actualizarTableroConJugadaDeHumano() {
-  console.log ("Actualizar Tablero con Jugada de Humano");
-  cells.forEach((cell, index) => {
-    cell.addEventListener("click", () => {
-      if (!(cell.textContent = jugadorHumano) && !(cell.textContent = jugadorAI)) {
-        cell.textContent = jugadorHumano;
-        cell.classList.add("occupied");
-        tablero[index] = jugadorHumano;
-        jugarAI(tablero);
-      };
+  console.log("Turno del Humano");
+
+      cells.forEach((cell, index) => {
+        cell.addEventListener("click", () => {
+          if ((cell.textContent === "" || cell.textContent === "-") && !cell.classList.contains("occupied") && !juegoTerminado(tablero)) {
+            cell.textContent = jugadorHumano;
+            cell.classList.add("occupied");
+            tablero[index] = jugadorHumano;
+            jugarAI(tablero);
+        };
+      });
     });
-  });
+
 };
 
 // Función para determinar los patrones de jugadas ganadoras.
@@ -108,43 +104,64 @@ function minimax(tablero, jugador) {
 // Función para marcar las fichas de la IA
 function jugarAI(tablero) {
 
-  var jugadaDeAI = minimax(tablero, jugadorAI).indice;
-  console.log(jugadaDeAI);
-  tablero[jugadaDeAI] = jugadorAI;
-  actualizarTableroConJugadaDeIA();
+    var jugadaDeAI = minimax(tablero, jugadorAI).indice;
+    console.log(jugadaDeAI);
+    tablero[jugadaDeAI] = jugadorAI;
+    actualizarTableroConJugadaDeIA();
+    if (!juegoTerminado(tablero)){
+      actualizarTableroConJugadaDeIA();
+    }else {
+      console.log("Juego Terminado");
+      return;
+    };
 
 };
-
 
 function juegoTerminado(tablero) {
   return jugadaGanadora(tablero, jugadorAI) || jugadaGanadora(tablero, jugadorHumano) || !tablero.includes("-");
 };
 
-if (turnoJugadorAI) {
-  jugarAI(tablero);
+// Función Jugar
+function jugar(){
+  if (turnoJugadorAI) {
+
+    jugarAI(tablero);
+  
+  } else {
+
+    actualizarTableroConJugadaDeHumano();
+
+  };
 };
 
-// Función para elejir el turno.
-/*async function elejirTurno (){
+// Función para elegir turnos
+function elegirTruno(){
 
-  return new Promise((resolve)=>{
-
-    rl.question("¿Quiere empezar primero? Presione S para Sí o N para No ", (input) => {
-
-      const respuesta = input.toLocaleLowerCase();
-
-      if(respuesta === "s") {
-        turnoJugadorAI = false;
-      } else {
-        if (respuesta === "n") {
-          turnoJugadorAI = true;
-        };
-      }
-
-      resolve();
-
-    });
-
+  buttonJugarPrimero.addEventListener("click", () =>{
+    turnoJugadorAI = false;
+    jugar();
+    buttonJugarPrimero.style.display = "none";
+    buttonJugarSegundo.style.display = "none";
   });
 
-};*/
+  buttonJugarSegundo.addEventListener("click", () =>{
+    turnoJugadorAI = true;
+    jugar();
+    buttonJugarPrimero.style.display = "none";
+    buttonJugarSegundo.style.display = "none";
+  });
+
+};
+
+// Función para reiniciar el juego
+function reiniciar() {
+  location.reload();
+};
+
+// Función para esconder y revelar los botones
+function revelarBotones(){
+  buttonIniciar.style.display = "none"
+  buttonJugarPrimero.style.display = "block";
+  buttonJugarSegundo.style.display = "block";
+  buttonReiniciar.style.display = "block"
+};

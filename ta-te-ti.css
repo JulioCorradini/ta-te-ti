@@ -11,6 +11,15 @@ h1 {
     padding: 10px;
 }
 
+.container {
+    display: flex;
+}
+
+.margin {
+    width: 33%;
+    height: 50px;
+}
+
 #board {
     display: grid;
     grid-template-columns: repeat(3, 100px);
