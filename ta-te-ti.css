@@ -57,6 +57,12 @@ h1 {
     background-color: #c96464;
 }
 
+.message-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(170, 17, 12);
+  }
+
 .occupied {
     pointer-events: none; /* Desactivar clics en celdas ocupadas */
     color: #fff;

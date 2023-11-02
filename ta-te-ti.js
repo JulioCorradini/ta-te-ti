@@ -113,13 +113,13 @@ function jugarAI(tablero) {
       actualizarTableroConJugadaDeIA();
     }else {
       if (jugadaGanadora(tablero, jugadorAI)) {
-        IncludeMessage("Juego Terminado. Ganador X");
+        includeMessage("JUEGO TERMINADO. GANADOR X");
       }else {
         if (jugadaGanadora(tablero, jugadorHumano)){
-          IncludeMessage("Juego Terminado. Ganador O");
+          includeMessage("JUEGO TERMINADO. GANADOR O");
         } else {
           if (!tablero.includes("-")){
-            IncludeMessage("Juego Terminado. Empate");
+            includeMessage("JUEGO TERMINADO. EMPATE");
           };
         };
       };
@@ -178,8 +178,9 @@ function revelarBotones(){
 };
 
 // Función para mostrar mensaje de finalización
-function IncludeMessage(messageText){
+function includeMessage(messageText){
   var innerMessage = document.createElement("p");
   innerMessage.innerText = messageText;
-  message.appendChild("innerMessage");
+  innerMessage.classList.add("message-text");
+  message.appendChild(innerMessage);
 };
