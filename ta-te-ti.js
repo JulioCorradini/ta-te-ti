@@ -3,6 +3,7 @@ const buttonIniciar = document.getElementById("button-iniciar");
 const buttonJugarPrimero = document.getElementById("button-jugar-primero");
 const buttonJugarSegundo = document.getElementById("button-jugar-segundo");
 const buttonReiniciar = document.getElementById("button-reiniciar");
+const message = document.getElementById("message");
 
 // Esconder los botones.
 buttonJugarPrimero.style.display = "none";
@@ -111,7 +112,17 @@ function jugarAI(tablero) {
     if (!juegoTerminado(tablero)){
       actualizarTableroConJugadaDeIA();
     }else {
-      console.log("Juego Terminado");
+      if (jugadaGanadora(tablero, jugadorAI)) {
+        IncludeMessage("Juego Terminado. Ganador X");
+      }else {
+        if (jugadaGanadora(tablero, jugadorHumano)){
+          IncludeMessage("Juego Terminado. Ganador O");
+        } else {
+          if (!tablero.includes("-")){
+            IncludeMessage("Juego Terminado. Empate");
+          };
+        };
+      };
       return;
     };
 
@@ -164,4 +175,11 @@ function revelarBotones(){
   buttonJugarPrimero.style.display = "block";
   buttonJugarSegundo.style.display = "block";
   buttonReiniciar.style.display = "block"
+};
+
+// Función para mostrar mensaje de finalización
+function IncludeMessage(messageText){
+  var innerMessage = document.createElement("p");
+  innerMessage.innerText = messageText;
+  message.appendChild("innerMessage");
 };

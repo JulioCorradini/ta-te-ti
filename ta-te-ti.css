@@ -42,9 +42,19 @@ h1 {
     background-color: #eee;
 }
 
-#message {
+.button-container {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
     font-size: 1.5rem;
     margin-top: 20px;
+    margin: 20px auto;
+}
+
+.button {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: #c96464;
 }
 
 .occupied {
